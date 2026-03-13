@@ -918,8 +918,8 @@ async def dashboard():
     return FileResponse(FRONTEND_PATH / "dashboard.html")
 
 
-@app.get("/docs")
-async def docs_page():
+@app.get("/guide")
+async def guide_page():
     """文档页面"""
     return FileResponse(FRONTEND_PATH / "docs.html")
 
