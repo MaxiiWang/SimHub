@@ -304,6 +304,41 @@
                 margin-top: var(--space-sm);
             }
         }
+
+        /* Modal Tip */
+        .modal-tip {
+            display: flex;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            background: rgba(212, 160, 84, 0.1);
+            border: 1px solid rgba(212, 160, 84, 0.3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .modal-tip .tip-icon {
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .modal-tip .tip-content strong {
+            display: block;
+            color: var(--accent-text);
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .modal-tip .tip-content p {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .modal-tip .tip-content a {
+            color: var(--accent-text);
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -402,6 +437,13 @@
     <div class="modal" id="createAgentModal">
         <div class="modal-content" style="max-width: 560px;">
             <h2>发布 Agent</h2>
+            <div class="modal-tip">
+                <span class="tip-icon">💡</span>
+                <div class="tip-content">
+                    <strong>前置条件</strong>
+                    <p>发布前请确保已部署 <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">SimWorld</a> 并启动可视化 API。</p>
+                </div>
+            </div>
             <form id="createAgentForm" onsubmit="handleCreateAgent(event)">
                 <div class="form-group">
                     <label>API 地址</label>
