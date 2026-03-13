@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场 - Hub</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <style>
+        /* ===== Marketplace Grid ===== */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: var(--space-lg);
+            padding-bottom: var(--space-2xl);
+        }
+
+        /* ===== Agent Card ===== */
+        .agent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-sm), var(--shadow-inset);
+        }
+
+        .agent-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .agent-card.type-human {
+            border-top: 2px solid var(--color-human);
+        }
+
+        .agent-card.type-character {
+            border-top: 2px solid var(--color-character);
+        }
+
+        .agent-header {
+            padding: var(--space-lg);
+            display: flex;
+            gap: var(--space-md);
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .agent-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .agent-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            flex-shrink: 0;
+        }
+
+        .agent-avatar.human {
+            background: rgba(109, 168, 155, 0.15);
+            border: 1px solid rgba(109, 168, 155, 0.2);
+        }
+
+        .agent-avatar.character {
+            background: rgba(157, 139, 184, 0.15);
+            border: 1px solid rgba(157, 139, 184, 0.2);
+        }
+
+        .agent-info h3 {
+            font-family: var(--font-display);
+            font-size: 1.05em;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .agent-info h3 .external-link {
+            font-size: 0.7em;
+            opacity: 0.4;
+            margin-left: var(--space-xs);
+        }
+
+        .agent-info .owner {
+            color: var(--text-muted);
+            font-size: 0.82em;
+        }
+
+        .agent-info .type-badge {
+            margin-top: var(--space-sm);
+        }
+
+        .agent-body {
+            padding: 0 var(--space-lg) var(--space-lg);
+        }
+
+        .agent-body .description {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            line-height: 1.7;
+            margin-bottom: var(--space-md);
+        }
+
+        .agent-tags {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-md);
+        }
+
+        /* ===== Token Availability ===== */
+        .token-section {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .token-section-label {
+            font-size: 0.72em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+
+        .token-type-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .token-type-item:last-child {
+            border-bottom: none;
+        }
+
+        .token-type-item .type-name {
+            color: var(--market-teal);
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .token-type-item .type-detail {
+            color: var(--text-muted);
+            font-size: 0.78em;
+            margin-left: var(--space-sm);
+        }
+
+        .token-type-item .type-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .token-type-item .availability {
+            font-size: 0.82em;
+        }
+
+        .token-type-item .price {
+            font-weight: 600;
+            font-size: 0.88em;
+            color: var(--accent-text);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .agent-footer {
+            padding: 0 var(--space-lg) var(--space-lg);
+            text-align: right;
+        }
+
+        /* ===== Purchase Modal ===== */
+        .purchase-agent-name {
+            color: var(--text-muted);
+            font-size: 0.88em;
+            margin-top: calc(-1 * var(--space-md));
+            margin-bottom: var(--space-lg);
+        }
+
+        .token-type-selection label {
+            display: flex;
+            align-items: center;
+            padding: var(--space-md);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-bottom: var(--space-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .token-type-selection label:hover {
+            border-color: var(--border-medium);
+            background: var(--bg-hover);
+        }
+
+        .token-type-selection label:has(input:checked) {
+            border-color: var(--accent-primary);
+            background: var(--accent-muted);
+        }
+
+        .token-type-selection input[type="radio"] {
+            margin-right: var(--space-md);
+            accent-color: var(--accent-primary);
+        }
+
+        .token-type-selection .option-info {
+            flex: 1;
+        }
+
+        .token-type-selection .option-info .option-name {
+            font-weight: 500;
+            font-size: 0.92em;
+            color: var(--text-primary);
+        }
+
+        .token-type-selection .option-info .option-detail {
+            font-size: 0.78em;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .token-type-selection .option-price {
+            font-weight: 600;
+            color: var(--accent-text);
+            font-size: 0.92em;
+        }
+
+        .purchase-total {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-lg);
+        }
+
+        .purchase-total .total-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .purchase-total .total-value {
+            font-family: var(--font-display);
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--accent-text);
+        }
+
+        .page-header.centered {
+            text-align: center;
+            padding: var(--space-xl) 0 var(--space-lg);
+        }
+
+        @media (max-width: 768px) {
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">Hub<span class="dot">.</span></a>
+                <div class="nav-links">
+                    <div class="auth-buttons" id="authButtons">
+                        <a href="/" class="btn btn-primary btn-small">登录 / 注册</a>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-trigger">
+                                <div class="avatar" id="userAvatar">M</div>
+                                <span class="username" id="username"></span>
+                                <span class="chevron">▼</span>
+                            </div>
+                            <div class="user-dropdown-menu">
+                                <div class="user-dropdown-header">
+                                    <div class="name" id="userDisplayName"></div>
+                                    <div class="balance">
+                                        <span class="balance-icon">⚡</span>
+                                        <span class="atp-tooltip" id="atpBalance">0 ATP</span>
+                                    </div>
+                                </div>
+                                <a href="/dashboard" class="user-dropdown-item">
+                                    <span class="icon">📊</span>
+                                    仪表盘
+                                </a>
+                                <a href="/marketplace" class="user-dropdown-item">
+                                    <span class="icon">🏪</span>
+                                    市场
+                                </a>
+                                <div class="user-dropdown-divider"></div>
+                                <button class="user-dropdown-item danger" onclick="logout()">
+                                    <span class="icon">🚪</span>
+                                    退出登录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header centered">
+            <div class="container">
+                <h1 class="animate-in">Agent 市场</h1>
+                <p class="animate-in animate-in-delay-1">浏览和购买 Agent Token，获取认知服务</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="filters animate-in animate-in-delay-2">
+                <button class="filter-btn active" data-type="all">全部</button>
+                <button class="filter-btn" data-type="human">👤 Human</button>
+                <button class="filter-btn" data-type="character">🎭 Character</button>
+            </div>
+
+            <div class="agents-grid" id="agentsGrid">
+                <!-- 动态加载 -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">🌐</div>
+                <h3>暂无 Agent</h3>
+                <p>成为第一个发布 Agent 的用户</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Purchase Modal -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2>购买 Token</h2>
+            <p class="purchase-agent-name" id="purchaseAgentName"></p>
+
+            <div>
+                <div class="token-section-label">选择 Token 类型</div>
+                <div class="token-type-selection" id="tokenTypeSelection">
+                    <!-- 动态加载 -->
+                </div>
+            </div>
+
+            <div class="purchase-total">
+                <span class="total-label">支付金额</span>
+                <span class="total-value" id="priceTotal">0 <span class="atp-tooltip" style="font-size: 0.6em;">ATP</span></span>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="hideModal()">取消</button>
+                <button class="btn btn-teal" onclick="confirmPurchase()">确认购买</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAgentId = null;
+
+        function checkAuth() {
+            const token = localStorage.getItem('hub_token');
+            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+
+            if (token && user) {
+                document.getElementById('authButtons').classList.add('hidden');
+                document.getElementById('userMenu').classList.add('active');
+                document.getElementById('username').textContent = user.username;
+                document.getElementById('userDisplayName').textContent = user.username;
+                document.getElementById('userAvatar').textContent = user.username.charAt(0).toUpperCase();
+                document.getElementById('atpBalance').textContent = `${user.atp_balance} ATP`;
+                return true;
+            }
+            return false;
+        }
+
+        async function loadAgents(type = 'all') {
+            try {
+                const res = await fetch('/api/agents');
+                const data = await res.json();
+
+                let agents = data.agents || [];
+                if (type !== 'all') {
+                    agents = agents.filter(a => a.agent_type === type);
+                }
+
+                const grid = document.getElementById('agentsGrid');
+                const empty = document.getElementById('emptyState');
+
+                if (agents.length === 0) {
+                    grid.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                grid.innerHTML = agents.map((agent, idx) => {
+                    const tags = JSON.parse(agent.tags || '[]');
+                    const tokenTypes = agent.token_types || [];
+                    const totalAvailable = agent.total_available || 0;
+                    const typeClass = agent.agent_type === 'human' ? 'type-human' : 'type-character';
+                    const delayClass = `animate-in animate-in-delay-${Math.min(idx + 1, 4)}`;
+
+                    // 渲染 Token 类型
+                    let tokenHtml = '';
+                    if (tokenTypes.length > 0) {
+                        tokenHtml = tokenTypes.map(t => {
+                            const priceText = t.unit_price > 0 ? `${t.unit_price} ATP` : '待定价';
+                            const expiry = t.expires_at ? new Date(t.expires_at).toLocaleDateString() : '';
+                            const availColor = t.available > 0 ? 'var(--color-success)' : 'var(--color-danger)';
+                            return `
+                                <div class="token-type-item">
+                                    <div>
+                                        <span class="type-name">${t.scope_label}</span>
+                                        <span class="type-detail">
+                                            ${t.qa_limit > 0 ? t.qa_limit + '次对话' : '无限'}
+                                            ${expiry ? ' &middot; 至' + expiry : ''}
+                                        </span>
+                                    </div>
+                                    <div class="type-right">
+                                        <span class="availability" style="color: ${availColor};">
+                                            剩余 ${t.available}
+                                        </span>
+                                        <span class="price">${priceText}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        tokenHtml = '<div style="color: var(--text-muted); padding: var(--space-sm) 0; font-size: 0.85em;">暂无可用 Token</div>';
+                    }
+
+                    const agentUrl = agent.endpoint_url || '#';
+                    return `
+                        <div class="agent-card ${typeClass} ${delayClass}">
+                            <div class="agent-header" onclick="window.open('${agentUrl}', '_blank')">
+                                <div class="agent-avatar ${agent.agent_type}">
+                                    ${agent.agent_type === 'human' ? '👤' : '🎭'}
+                                </div>
+                                <div class="agent-info">
+                                    <h3>${agent.name} <span class="external-link">↗</span></h3>
+                                    <span class="owner">by ${agent.owner_name}</span>
+                                    <div>
+                                        <span class="type-badge ${agent.agent_type}">
+                                            ${agent.agent_type === 'human' ? 'Human' : 'Character'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="agent-body">
+                                <p class="description">${agent.description || '暂无描述'}</p>
+                                <div class="agent-tags">
+                                    ${tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                                </div>
+                                <div class="token-section">
+                                    <div class="token-section-label">可用 Token</div>
+                                    ${tokenHtml}
+                                </div>
+                            </div>
+                            <div class="agent-footer">
+                                <button class="btn ${totalAvailable > 0 ? 'btn-teal' : 'btn-secondary'} btn-small"
+                                        onclick="showPurchase('${agent.agent_id}', '${agent.name}')"
+                                        ${totalAvailable === 0 ? 'disabled' : ''}>
+                                    ${totalAvailable > 0 ? '购买 Token' : '暂无库存'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Failed to load agents:', e);
+            }
+        }
+
+        let currentTokenTypes = [];
+        let selectedTokenType = null;
+
+        async function showPurchase(agentId, name) {
+            if (!checkAuth()) {
+                showAlert('error', '请先登录');
+                return;
+            }
+
+            currentAgentId = agentId;
+            document.getElementById('purchaseAgentName').textContent = name;
+
+            // 获取 Agent 详情和 Token 类型
+            try {
+                const res = await fetch(`/api/agents/${agentId}`);
+                const agent = await res.json();
+
+                // 获取 token_types（从 list API 已有，但详情 API 需要更新）
+                const listRes = await fetch('/api/agents');
+                const listData = await listRes.json();
+                const agentData = listData.agents.find(a => a.agent_id === agentId);
+                currentTokenTypes = agentData?.token_types || [];
+
+                const container = document.getElementById('tokenTypeSelection');
+                if (currentTokenTypes.length === 0) {
+                    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.88em;">暂无可用 Token</div>';
+                    return;
+                }
+
+                container.innerHTML = currentTokenTypes
+                    .filter(t => t.available > 0)
+                    .map((t, i) => {
+                        const expiry = t.expires_at ? new Date(t.expires_at).toLocaleDateString() : '永久';
+                        const price = t.unit_price > 0 ? t.unit_price : 0;
+                        return `
+                            <label>
+                                <input type="radio" name="tokenType" value="${i}"
+                                       onchange="selectTokenType(${i})" ${i === 0 ? 'checked' : ''}>
+                                <div class="option-info">
+                                    <div class="option-name">${t.scope_label}</div>
+                                    <div class="option-detail">
+                                        ${t.qa_limit > 0 ? t.qa_limit + '次对话' : '无限对话'} &middot; 有效期: ${expiry} &middot; 剩余: ${t.available}
+                                    </div>
+                                </div>
+                                <div class="option-price">${price > 0 ? price + ' ATP' : '免费'}</div>
+                            </label>
+                        `;
+                    }).join('');
+
+                // 默认选中第一个
+                if (currentTokenTypes.filter(t => t.available > 0).length > 0) {
+                    selectTokenType(0);
+                }
+
+                document.getElementById('purchaseModal').classList.add('active');
+            } catch (e) {
+                showAlert('error', '加载 Token 信息失败');
+            }
+        }
+
+        function selectTokenType(index) {
+            const available = currentTokenTypes.filter(t => t.available > 0);
+            selectedTokenType = available[index];
+            const price = selectedTokenType?.unit_price || 0;
+            document.getElementById('priceTotal').innerHTML = `${price} <span class="atp-tooltip" style="font-size: 0.6em;">ATP</span>`;
+        }
+
+        function hideModal() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        }
+
+        async function confirmPurchase() {
+            const token = localStorage.getItem('hub_token');
+
+            try {
+                const res = await fetch('/api/tokens/purchase', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ agent_id: currentAgentId })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // 更新本地余额
+                    const user = JSON.parse(localStorage.getItem('hub_user'));
+                    user.atp_balance = data.remaining_balance;
+                    localStorage.setItem('hub_user', JSON.stringify(user));
+                    document.getElementById('atpBalance').textContent = `${data.remaining_balance} ATP`;
+
+                    hideModal();
+                    showAlert('success', `购买成功！Token: ${data.token.substring(0, 20)}...`);
+                } else {
+                    showAlert('error', data.detail || '购买失败');
+                }
+            } catch (e) {
+                showAlert('error', '网络错误');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('hub_token');
+            localStorage.removeItem('hub_user');
+            location.reload();
+        }
+
+        function showAlert(type, message) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            document.body.appendChild(alert);
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                loadAgents(btn.dataset.type);
+            });
+        });
+
+        // Modal close
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) hideModal();
+            });
+        });
+
+        // ATP Tooltip
+        (function() {
+            const box = document.createElement('div');
+            box.id = 'atpTooltipBox';
+            box.textContent = 'ATP 是平台积分，仅为数据库数字，用于防止 Agent 被无限调用。不具备区块链特性或内在价值。';
+            document.body.appendChild(box);
+
+            document.addEventListener('mouseover', e => {
+                if (e.target.classList.contains('atp-tooltip')) {
+                    const rect = e.target.getBoundingClientRect();
+                    let top = rect.bottom + 8;
+                    let left = rect.left + rect.width/2 - 140;
+                    if (left < 10) left = 10;
+                    if (left + 280 > window.innerWidth - 10) left = window.innerWidth - 290;
+                    if (top + 100 > window.innerHeight) top = rect.top - 80;
+                    box.style.top = top + 'px';
+                    box.style.left = left + 'px';
+                    box.classList.add('visible');
+                }
+            });
+            document.addEventListener('mouseout', e => {
+                if (e.target.classList.contains('atp-tooltip')) {
+                    box.classList.remove('visible');
+                }
+            });
+        })();
+
+        // Init
+        checkAuth();
+        loadAgents();
+    </script>
+</body>
+</html>

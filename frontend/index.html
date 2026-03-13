@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub - 分布式认知市场</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <style>
+        /* ===== Hero ===== */
+        .hero {
+            padding: var(--space-2xl) 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(212, 160, 84, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3.2em;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-text), var(--market-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .lead {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto var(--space-xl);
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+        }
+
+        .hero-buttons .btn {
+            padding: 12px 28px;
+            font-size: 0.92em;
+        }
+
+        /* ===== Features ===== */
+        .features {
+            padding: var(--space-2xl) 0;
+        }
+
+        .features h2 {
+            font-family: var(--font-display);
+            text-align: center;
+            font-size: 1.6em;
+            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl) var(--space-lg);
+            border: 1px solid var(--border-subtle);
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-sm), var(--shadow-inset);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:nth-child(1) { border-left: 2px solid var(--color-human); }
+        .feature-card:nth-child(1)::before { background: linear-gradient(90deg, var(--color-human), transparent); }
+        .feature-card:nth-child(2) { border-left: 2px solid var(--color-character); }
+        .feature-card:nth-child(2)::before { background: linear-gradient(90deg, var(--color-character), transparent); }
+        .feature-card:nth-child(3) { border-left: 2px solid var(--color-simulate); }
+        .feature-card:nth-child(3)::before { background: linear-gradient(90deg, var(--color-simulate), transparent); }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            margin-bottom: var(--space-md);
+        }
+
+        .feature-card:nth-child(1) .feature-icon { background: rgba(109, 168, 155, 0.15); }
+        .feature-card:nth-child(2) .feature-icon { background: rgba(157, 139, 184, 0.15); }
+        .feature-card:nth-child(3) .feature-icon { background: rgba(124, 153, 184, 0.15); }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.15em;
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.88em;
+            line-height: 1.7;
+        }
+
+        /* Coming Soon 状态 */
+        .feature-card.coming-soon {
+            opacity: 0.6;
+            filter: grayscale(30%);
+        }
+
+        .feature-card.coming-soon:hover {
+            transform: none;
+            box-shadow: var(--shadow-sm), var(--shadow-inset);
+        }
+
+        .badge-soon {
+            display: inline-block;
+            font-family: var(--font-sans);
+            font-size: 0.55em;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+            vertical-align: middle;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== Stats ===== */
+        .stats {
+            padding: var(--space-xl) 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            text-align: center;
+        }
+
+        .stat-item .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--accent-text);
+            line-height: 1.2;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-item .stat-desc {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: var(--space-xs);
+        }
+
+        /* Open Source Section */
+        .open-source {
+            padding: var(--space-2xl) 0;
+        }
+
+        .oss-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            backdrop-filter: blur(12px);
+        }
+
+        .oss-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .oss-icon {
+            font-size: 2.5em;
+            line-height: 1;
+        }
+
+        .oss-title h2 {
+            font-family: var(--font-display);
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .oss-title p {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin: 4px 0 0;
+        }
+
+        .oss-badges {
+            display: flex;
+            gap: var(--space-sm);
+            margin-left: auto;
+        }
+
+        .oss-badges a {
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .oss-badges a:hover {
+            opacity: 1;
+        }
+
+        .oss-body {
+            margin-bottom: var(--space-lg);
+        }
+
+        .oss-body > p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0 0 var(--space-md);
+        }
+
+        .oss-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+
+        .oss-features span {
+            background: var(--bg-tertiary);
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .oss-footer {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .oss-footer .btn svg {
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .oss-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .oss-badges {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .hero .lead { font-size: 0.95em; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Hub<span class="dot">.</span></div>
+                <div class="nav-links">
+                    <a href="/marketplace">市场</a>
+                    <div class="auth-buttons" id="authButtons">
+                        <button class="btn btn-secondary" onclick="showModal('login')">登录</button>
+                        <button class="btn btn-primary" onclick="showModal('register')">注册</button>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-trigger">
+                                <div class="avatar" id="userAvatar">M</div>
+                                <span class="username" id="username"></span>
+                                <span class="chevron">▼</span>
+                            </div>
+                            <div class="user-dropdown-menu">
+                                <div class="user-dropdown-header">
+                                    <div class="name" id="userDisplayName"></div>
+                                    <div class="balance">
+                                        <span class="balance-icon">⚡</span>
+                                        <span class="atp-tooltip" id="atpBalance">0 ATP</span>
+                                    </div>
+                                </div>
+                                <a href="/dashboard" class="user-dropdown-item">
+                                    <span class="icon">📊</span>
+                                    仪表盘
+                                </a>
+                                <a href="/marketplace" class="user-dropdown-item">
+                                    <span class="icon">🏪</span>
+                                    市场
+                                </a>
+                                <div class="user-dropdown-divider"></div>
+                                <button class="user-dropdown-item danger" onclick="logout()">
+                                    <span class="icon">🚪</span>
+                                    退出登录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="animate-in">分布式<span class="highlight">认知市场</span></h1>
+                <p class="lead animate-in animate-in-delay-1">将你的认知资产化，连接 Human、Character、Simulation，用 <span class="atp-tooltip">ATP</span> 驱动知识交换</p>
+                <div class="hero-buttons animate-in animate-in-delay-2">
+                    <button class="btn btn-primary" onclick="showModal('register')">立即加入</button>
+                    <a href="/marketplace" class="btn btn-secondary">浏览市场</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="animate-in">三层产品</h2>
+                <div class="feature-grid">
+                    <div class="feature-card animate-in animate-in-delay-1">
+                        <div class="feature-icon">👤</div>
+                        <h3>Human</h3>
+                        <p>发布你的 Brain Agent，将个人认知数字化，让他人按需访问你的思维方式</p>
+                    </div>
+                    <div class="feature-card animate-in animate-in-delay-2 coming-soon">
+                        <div class="feature-icon">🎭</div>
+                        <h3>Character <span class="badge-soon">待建</span></h3>
+                        <p>创建角色 Agent，基于设定自动调研填充，模拟特定人物的思考方式</p>
+                    </div>
+                    <div class="feature-card animate-in animate-in-delay-3 coming-soon">
+                        <div class="feature-icon">🔮</div>
+                        <h3>Simulation <span class="badge-soon">待建</span></h3>
+                        <p>发起预测任务，调动多个 Agent 进行分布式决策，聚合集体智慧</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item animate-in">
+                        <div class="stat-number" id="statUsers">0</div>
+                        <div class="stat-desc">注册用户</div>
+                    </div>
+                    <div class="stat-item animate-in animate-in-delay-1">
+                        <div class="stat-number" id="statAgents">0</div>
+                        <div class="stat-desc">活跃 Agent</div>
+                    </div>
+                    <div class="stat-item animate-in animate-in-delay-2">
+                        <div class="stat-number" id="statTraded">0</div>
+                        <div class="stat-desc"><span class="atp-tooltip">ATP</span> 交易量</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="open-source">
+            <div class="container">
+                <div class="oss-card animate-in">
+                    <div class="oss-header">
+                        <div class="oss-icon">🧠</div>
+                        <div class="oss-title">
+                            <h2>SimWorld</h2>
+                            <p>开源个人知识管理系统</p>
+                        </div>
+                        <div class="oss-badges">
+                            <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">
+                                <img src="https://img.shields.io/github/stars/MaxiiWang/SimWorld?style=social" alt="GitHub Stars">
+                            </a>
+                            <a href="https://github.com/MaxiiWang/SimWorld/fork" target="_blank">
+                                <img src="https://img.shields.io/github/forks/MaxiiWang/SimWorld?style=social" alt="GitHub Forks">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="oss-body">
+                        <p>Hub 上的 Human Agent 由 <strong>SimWorld</strong> 驱动 —— 一个三库协同的知识管理系统，让 AI Agent 拥有持久记忆和知识图谱能力。</p>
+                        <div class="oss-features">
+                            <span>📊 SQLite + Qdrant + Neo4j</span>
+                            <span>🔍 语义检索</span>
+                            <span>🕸️ 知识图谱</span>
+                            <span>🎨 可视化界面</span>
+                        </div>
+                    </div>
+                    <div class="oss-footer">
+                        <a href="https://github.com/MaxiiWang/SimWorld" target="_blank" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 6px; vertical-align: -2px;">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            查看源码
+                        </a>
+                        <a href="https://github.com/MaxiiWang/SimWorld#-快速开始" target="_blank" class="btn btn-secondary">
+                            快速开始 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Hub &middot; Powered by ATP</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>登录</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" name="username" required placeholder="输入用户名">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" name="password" required placeholder="输入密码">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal()">取消</button>
+                </div>
+            </form>
+            <p class="switch-form">还没有账号？<a onclick="showModal('register')">立即注册</a></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <h2>注册</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" name="username" required placeholder="选择一个用户名">
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" name="password" required minlength="6" placeholder="至少 6 位密码">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">注册并获得 100 ATP</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal()">取消</button>
+                </div>
+            </form>
+            <p class="switch-form">已有账号？<a onclick="showModal('login')">立即登录</a></p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+
+        // 检查登录状态
+        function checkAuth() {
+            const token = localStorage.getItem('hub_token');
+            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+
+            if (token && user) {
+                document.getElementById('authButtons').classList.add('hidden');
+                document.getElementById('userMenu').classList.add('active');
+                document.getElementById('username').textContent = user.username;
+                document.getElementById('userDisplayName').textContent = user.username;
+                document.getElementById('userAvatar').textContent = user.username.charAt(0).toUpperCase();
+                document.getElementById('atpBalance').textContent = `${user.atp_balance} ATP`;
+            }
+        }
+
+        // 加载统计
+        async function loadStats() {
+            try {
+                const res = await fetch(`${API_BASE}/api/stats`);
+                const data = await res.json();
+                document.getElementById('statUsers').textContent = data.total_users;
+                document.getElementById('statAgents').textContent = data.total_agents;
+                document.getElementById('statTraded').textContent = data.total_atp_traded;
+            } catch (e) {
+                console.error('Failed to load stats:', e);
+            }
+        }
+
+        // Modal
+        function showModal(type) {
+            hideModal();
+            document.getElementById(`${type}Modal`).classList.add('active');
+        }
+
+        function hideModal() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        }
+
+        // 注册
+        async function handleRegister(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                username: form.username.value,
+                email: form.email.value,
+                password: form.password.value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('hub_token', result.token);
+                    localStorage.setItem('hub_user', JSON.stringify({
+                        user_id: result.user_id,
+                        username: result.username,
+                        atp_balance: result.atp_balance
+                    }));
+                    showAlert('success', '注册成功！已获得 100 ATP');
+                    hideModal();
+                    checkAuth();
+                } else {
+                    showAlert('error', result.detail || '注册失败');
+                }
+            } catch (e) {
+                showAlert('error', '网络错误');
+            }
+        }
+
+        // 登录
+        async function handleLogin(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                username: form.username.value,
+                password: form.password.value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('hub_token', result.token);
+                    localStorage.setItem('hub_user', JSON.stringify({
+                        user_id: result.user_id,
+                        username: result.username,
+                        atp_balance: result.atp_balance
+                    }));
+                    showAlert('success', '登录成功！');
+                    hideModal();
+                    checkAuth();
+                } else {
+                    showAlert('error', result.detail || '登录失败');
+                }
+            } catch (e) {
+                showAlert('error', '网络错误');
+            }
+        }
+
+        // 登出
+        function logout() {
+            localStorage.removeItem('hub_token');
+            localStorage.removeItem('hub_user');
+            location.reload();
+        }
+
+        // Alert
+        function showAlert(type, message) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        // 点击 modal 外部关闭
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) hideModal();
+            });
+        });
+
+        // ATP Tooltip
+        (function() {
+            const box = document.createElement('div');
+            box.id = 'atpTooltipBox';
+            box.textContent = 'ATP 是平台积分，仅为数据库数字，用于防止 Agent 被无限调用。不具备区块链特性或内在价值。';
+            document.body.appendChild(box);
+
+            document.addEventListener('mouseover', e => {
+                if (e.target.classList.contains('atp-tooltip')) {
+                    const rect = e.target.getBoundingClientRect();
+                    let top = rect.bottom + 8;
+                    let left = rect.left + rect.width/2 - 140;
+
+                    // 边界检查
+                    if (left < 10) left = 10;
+                    if (left + 280 > window.innerWidth - 10) left = window.innerWidth - 290;
+                    if (top + 100 > window.innerHeight) top = rect.top - 80;
+
+                    box.style.top = top + 'px';
+                    box.style.left = left + 'px';
+                    box.classList.add('visible');
+                }
+            });
+            document.addEventListener('mouseout', e => {
+                if (e.target.classList.contains('atp-tooltip')) {
+                    box.classList.remove('visible');
+                }
+            });
+        })();
+
+        // 初始化
+        checkAuth();
+        loadStats();
+    </script>
+</body>
+</html>
