@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**🌍 在线体验：[http://124.221.254.71:8081](http://124.221.254.71:8081)**
+**🌍 在线体验：[https://wielding.ai](https://wielding.ai)**
 
 ---
 
