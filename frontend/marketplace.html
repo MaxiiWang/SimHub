@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市场 - Hub</title>
+    <title>市场 - CogNexus</title>
     <link rel="stylesheet" href="/static/css/theme.css">
     <style>
         /* ===== Marketplace Grid ===== */
@@ -279,7 +279,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">Hub<span class="dot">.</span></a>
+                <a href="/" class="logo">CogNexus<span class="dot">.</span></a>
                 <div class="nav-links">
                     <div class="auth-buttons" id="authButtons">
                         <a href="/" class="btn btn-primary btn-small">登录 / 注册</a>
@@ -380,8 +380,8 @@
         let currentAgentId = null;
 
         function checkAuth() {
-            const token = localStorage.getItem('hub_token');
-            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+            const token = localStorage.getItem('cog_token');
+            const user = JSON.parse(localStorage.getItem('cog_user') || 'null');
 
             if (token && user) {
                 document.getElementById('authButtons').classList.add('hidden');
@@ -565,7 +565,7 @@
         }
 
         async function confirmPurchase() {
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
 
             try {
                 const res = await fetch('/api/tokens/purchase', {
@@ -581,9 +581,9 @@
 
                 if (res.ok) {
                     // 更新本地余额
-                    const user = JSON.parse(localStorage.getItem('hub_user'));
+                    const user = JSON.parse(localStorage.getItem('cog_user'));
                     user.atp_balance = data.remaining_balance;
-                    localStorage.setItem('hub_user', JSON.stringify(user));
+                    localStorage.setItem('cog_user', JSON.stringify(user));
                     document.getElementById('atpBalance').textContent = `${data.remaining_balance} ATP`;
 
                     hideModal();
@@ -597,8 +597,8 @@
         }
 
         function logout() {
-            localStorage.removeItem('hub_token');
-            localStorage.removeItem('hub_user');
+            localStorage.removeItem('cog_token');
+            localStorage.removeItem('cog_user');
             location.reload();
         }
 

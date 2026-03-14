@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Hub 启动脚本
+# CogNexus 启动脚本
 # 用法: ./start.sh [port]
 
 PORT=${1:-8080}
@@ -18,7 +18,7 @@ if [ -f ".env" ]; then
     export $(cat .env | grep -v '^#' | xargs)
 fi
 
-echo "🌐 启动 Hub..."
+echo "🌐 启动 CogNexus..."
 echo "   端口: $PORT"
 echo "   访问: http://localhost:$PORT"
 echo ""

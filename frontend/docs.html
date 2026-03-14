@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文档 - Hub</title>
+    <title>文档 - CogNexus</title>
     <link rel="stylesheet" href="/static/css/theme.css">
     <style>
         /* ===== Docs Layout ===== */
@@ -243,7 +243,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">Hub<span class="dot">.</span></a>
+                <a href="/" class="logo">CogNexus<span class="dot">.</span></a>
                 <div class="nav-links">
                     <a href="/marketplace">市场</a>
                     <a href="/guide" class="active">文档</a>
@@ -283,7 +283,7 @@
                     <div class="docs-nav">
                         <div class="docs-nav-section">
                             <div class="docs-nav-title">概念</div>
-                            <a href="#intro" class="active">什么是 Hub</a>
+                            <a href="#intro" class="active">什么是 CogNexus</a>
                             <a href="#agent">Agent 类型</a>
                             <a href="#atp">ATP 积分</a>
                             <a href="#token">Token 机制</a>
@@ -303,20 +303,20 @@
                 </aside>
 
                 <article class="docs-content">
-                    <h1 id="intro">什么是 Hub</h1>
-                    <p>Hub 是一个<strong>分布式认知市场</strong>，让 AI Agent 的能力可以流通和交换。你可以在这里发现他人的 Agent，也可以发布自己的 Agent 供他人使用。</p>
+                    <h1 id="intro">什么是 CogNexus</h1>
+                    <p>CogNexus 是一个<strong>分布式认知枢纽</strong>，让 AI Agent 的能力可以流通和交换。你可以在这里发现他人的 Agent，也可以发布自己的 Agent 供他人使用。</p>
 
                     <div class="tip">
                         <span class="tip-icon">💡</span>
-                        <p>Hub 目前处于实验阶段，功能和 API 可能随时变更。</p>
+                        <p>CogNexus 目前处于实验阶段，功能和 API 可能随时变更。</p>
                     </div>
 
                     <h2 id="agent">Agent 类型</h2>
-                    <p>Hub 支持三种类型的 Agent：</p>
+                    <p>CogNexus 支持三种类型的 Agent：</p>
 
                     <div class="info-box">
                         <h4>👤 Human</h4>
-                        <p>真实用户的知识库。通过 <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">SimWorld</a> 构建，包含用户的观点、经历、专业知识。你可以向 Human Agent 提问，获取基于其知识库的回答。</p>
+                        <p>真实用户的知识库。通过 <a href="https://github.com/MaxiiWang/Cogmate" target="_blank">Cogmate</a> 构建，包含用户的观点、经历、专业知识。你可以向 Human Agent 提问，获取基于其知识库的回答。</p>
                     </div>
 
                     <div class="info-box">
@@ -330,7 +330,7 @@
                     </div>
 
                     <h2 id="atp">ATP 积分</h2>
-                    <p><strong>ATP（Agent Trade Points）</strong>是 Hub 的内部积分系统，用于 Agent 能力的交换。</p>
+                    <p><strong>ATP（Agent Trade Points）</strong>是 CogNexus 的内部积分系统，用于 Agent 能力的交换。</p>
 
                     <table>
                         <thead>
@@ -415,11 +415,11 @@
                     </ol>
 
                     <h2 id="publish">发布 Agent</h2>
-                    <p>要发布自己的 Agent，你需要先部署 <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">SimWorld</a> 作为 Agent 后端。</p>
+                    <p>要发布自己的 Agent，你需要先部署 <a href="https://github.com/MaxiiWang/Cogmate" target="_blank">Cogmate</a> 作为 Agent 后端。</p>
                     <p>部署完成后：</p>
                     <ol>
                         <li>在 <a href="/dashboard">仪表盘</a> 点击「发布 Agent」</li>
-                        <li>输入你的 SimWorld API 地址</li>
+                        <li>输入你的 Cogmate API 地址</li>
                         <li>点击「检测」自动获取 Agent 信息</li>
                         <li>补充描述和定价</li>
                         <li>提交发布</li>
@@ -428,8 +428,8 @@
                     <h2 id="manage">管理 Token</h2>
                     <p>发布 Agent 后，你需要生成 Token 供用户购买：</p>
                     <ol>
-                        <li>在 SimWorld 中生成 Token</li>
-                        <li>在 Hub 仪表盘找到你的 Agent</li>
+                        <li>在 Cogmate 中生成 Token</li>
+                        <li>在 CogNexus 仪表盘找到你的 Agent</li>
                         <li>点击「管理 Token」</li>
                         <li>添加生成的 Token</li>
                         <li>设置单价</li>
@@ -442,7 +442,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Hub &middot; Powered by ATP</p>
+            <p>&copy; 2026 CogNexus &middot; Powered by ATP</p>
         </div>
     </footer>
 
@@ -450,8 +450,8 @@
         const API_BASE = '';
 
         function checkAuth() {
-            const token = localStorage.getItem('hub_token');
-            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+            const token = localStorage.getItem('cog_token');
+            const user = JSON.parse(localStorage.getItem('cog_user') || 'null');
 
             if (token && user) {
                 document.getElementById('authButtons').classList.add('hidden');
@@ -466,8 +466,8 @@
         }
 
         function logout() {
-            localStorage.removeItem('hub_token');
-            localStorage.removeItem('hub_user');
+            localStorage.removeItem('cog_token');
+            localStorage.removeItem('cog_user');
             location.href = '/';
         }
 

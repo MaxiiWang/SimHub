@@ -1,5 +1,5 @@
 """
-Hub API - 分布式认知市场
+CogNexus API - 分布式认知枢纽
 """
 import uuid
 import json
@@ -24,7 +24,7 @@ from auth import (
 init_db()
 
 app = FastAPI(
-    title="Hub - 分布式认知市场",
+    title="CogNexus - 分布式认知枢纽",
     description="连接 Human、Character、Simulate",
     version="0.1.0",
     docs_url=None,      # 禁用 Swagger UI
@@ -504,8 +504,8 @@ class AddTokensRequest(BaseModel):
     tokens: List[str]
 
 
-async def validate_token_with_brain(endpoint_url: str, token_value: str) -> dict:
-    """调用 Brain API 验证 Token 并获取元数据"""
+async def validate_token_with_cogmate(endpoint_url: str, token_value: str) -> dict:
+    """调用 Cogmate API 验证 Token 并获取元数据"""
     url = endpoint_url.rstrip('/')
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
@@ -548,7 +548,7 @@ async def add_agent_tokens(agent_id: str, data: AddTokensRequest, user: dict = D
             continue
         
         # 验证 Token
-        validation = await validate_token_with_brain(endpoint_url, token_value)
+        validation = await validate_token_with_cogmate(endpoint_url, token_value)
         
         token_id = f"tkn_{uuid.uuid4().hex[:12]}"
         

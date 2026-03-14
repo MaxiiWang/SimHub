@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Hub 一键安装脚本
+# CogNexus 一键安装脚本
 # 用法: chmod +x setup.sh && ./setup.sh
 
 set -e
 
-echo "🌐 Hub 安装脚本"
-echo "================"
+echo "🌐 CogNexus 安装脚本"
+echo "===================="
 echo ""
 
 # 颜色定义

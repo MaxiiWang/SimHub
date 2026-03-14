@@ -1,9 +1,9 @@
 /**
- * Hub - 分布式认知市场 设计系统
- * 与 Brain Visual 视觉语言呼应，融入市场化身份
+ * CogNexus - 分布式认知枢纽 设计系统
+ * 与 Cogmate Visual 视觉语言呼应，融入市场化身份
  *
  * 设计理念：
- * - 继承 Brain Visual 的温暖深色调与琥珀金主色
+ * - 继承 Cogmate Visual 的温暖深色调与琥珀金主色
  * - 衬线+无衬线字体组合延续排版张力
  * - 玻璃拟态面板营造层次与沉浸感
  * - 知识类型色系映射 Agent 类型，形成生态统一
@@ -15,7 +15,7 @@
 
 /* ===== 设计令牌 ===== */
 :root {
-    /* 背景色 - 深暖灰色系，与 Brain Visual 统一 */
+    /* 背景色 - 深暖灰色系，与 Cogmate Visual 统一 */
     --bg-primary: #17181c;
     --bg-secondary: #1e2025;
     --bg-tertiary: #26282e;
@@ -36,7 +36,7 @@
     --market-teal-muted: rgba(78, 205, 196, 0.12);
     --market-teal-glow: rgba(78, 205, 196, 0.2);
 
-    /* Agent 类型色 - 映射 Brain Visual 知识类型 */
+    /* Agent 类型色 - 映射 Cogmate Visual 知识类型 */
     --color-human: #6da89b;
     --color-character: #9d8bb8;
     --color-simulate: #7c99b8;
@@ -113,7 +113,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 微妙背景纹理 - 与 Brain Visual 呼应 */
+/* 微妙背景纹理 - 与 Cogmate Visual 呼应 */
 body::before {
     content: '';
     position: fixed;

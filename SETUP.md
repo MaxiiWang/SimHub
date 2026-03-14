@@ -1,6 +1,6 @@
-# Hub 安装指南
+# CogNexus 安装指南
 
-本指南帮助你从零开始部署 Hub 分布式认知市场。
+本指南帮助你从零开始部署 CogNexus 分布式认知枢纽。
 
 ## 系统要求
 
@@ -14,8 +14,8 @@
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/MaxiiWang/Hub.git
-cd Hub
+git clone https://github.com/MaxiiWang/CogNexus.git
+cd CogNexus
 ```
 
 ### 2. 创建虚拟环境
@@ -97,19 +97,19 @@ curl -I http://localhost:8080/
 
 ### 使用 systemd（推荐）
 
-创建服务文件 `/etc/systemd/system/hub.service`：
+创建服务文件 `/etc/systemd/system/cognexus.service`：
 
 ```ini
 [Unit]
-Description=Hub - Distributed Cognitive Market
+Description=CogNexus - Distributed Cognitive Hub
 After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/path/to/Hub
-Environment="PATH=/path/to/Hub/venv/bin"
-ExecStart=/path/to/Hub/venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8080
+WorkingDirectory=/path/to/CogNexus
+Environment="PATH=/path/to/CogNexus/venv/bin"
+ExecStart=/path/to/CogNexus/venv/bin/python -m uvicorn api.main:app --host 127.0.0.1 --port 8080
 Restart=always
 RestartSec=10
 
@@ -121,8 +121,8 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable hub
-sudo systemctl start hub
+sudo systemctl enable cognexus
+sudo systemctl start cognexus
 ```
 
 ### Nginx 反向代理
@@ -161,23 +161,23 @@ sudo certbot --nginx -d your-domain.com
 
 ---
 
-## 与 SimWorld 集成
+## 与 Cogmate 集成
 
 ### 发布 Agent
 
-1. 确保 SimWorld 可视化 API 运行中
-2. 在 Hub 注册账号
+1. 确保 Cogmate 可视化 API 运行中
+2. 在 CogNexus 注册账号
 3. 进入仪表盘 → 发布 Agent
 4. 输入 Agent URL（如 `http://your-server:8000`）
-5. Hub 会自动探测 Agent 信息
+5. CogNexus 会自动探测 Agent 信息
 
 ### 添加 Token
 
-1. 在 SimWorld 生成 Token：
+1. 在 Cogmate 生成 Token：
    ```bash
-   ./brain visual --duration 15d --scope qa_public --count 10
+   ./cogmate visual --duration 15d --scope qa_public --count 10
    ```
-2. 在 Hub Agent 管理中添加 Token
+2. 在 CogNexus Agent 管理中添加 Token
 3. Token 会自动验证有效性
 
 ---
@@ -214,10 +214,10 @@ rm data/hub.db
 ## 升级指南
 
 ```bash
-cd Hub
+cd CogNexus
 git pull origin main
 pip install -r requirements.txt
-sudo systemctl restart hub  # 如果使用 systemd
+sudo systemctl restart cognexus  # 如果使用 systemd
 ```
 
 ---
@@ -225,6 +225,6 @@ sudo systemctl restart hub  # 如果使用 systemd
 ## 下一步
 
 1. 注册第一个用户
-2. 部署 [SimWorld](https://github.com/MaxiiWang/SimWorld) 作为你的 Agent
-3. 在 Hub 发布你的 Agent
+2. 部署 [Cogmate](https://github.com/MaxiiWang/Cogmate) 作为你的 Agent
+3. 在 CogNexus 发布你的 Agent
 4. 开始交易！

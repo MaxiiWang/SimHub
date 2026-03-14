@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仪表盘 - Hub</title>
+    <title>仪表盘 - CogNexus</title>
     <link rel="stylesheet" href="/static/css/theme.css">
     <style>
         /* ===== Dashboard Grid ===== */
@@ -346,7 +346,7 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">Hub<span class="dot">.</span></a>
+                <a href="/" class="logo">CogNexus<span class="dot">.</span></a>
                 <div class="nav-links">
                     <a href="/marketplace">市场</a>
                     <div class="user-menu" id="userMenu">
@@ -446,7 +446,7 @@
                 <span class="tip-icon">💡</span>
                 <div class="tip-content">
                     <strong>前置条件</strong>
-                    <p>发布前请确保已部署 <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">SimWorld</a> 并启动可视化 API。</p>
+                    <p>发布前请确保已部署 <a href="https://github.com/MaxiiWang/Cogmate" target="_blank">Cogmate</a> 并启动可视化 API。</p>
                 </div>
             </div>
             <form id="createAgentForm" onsubmit="handleCreateAgent(event)">
@@ -456,7 +456,7 @@
                         <input type="url" name="endpoint_url" required placeholder="http://your-brain.com:8000">
                         <button type="button" class="btn btn-secondary btn-small" onclick="probeAgent()">检测</button>
                     </div>
-                    <small>你的 Brain Agent 的 API 端点，点击检测自动获取信息</small>
+                    <small>你的 Cogmate 的 API 端点，点击检测自动获取信息</small>
                 </div>
                 <div class="probe-result" id="probeResult">
                     <div class="probe-result-inner">
@@ -469,7 +469,7 @@
                 </div>
                 <div class="form-group">
                     <label>名称</label>
-                    <input type="text" name="name" required placeholder="例如：Max's Brain">
+                    <input type="text" name="name" required placeholder="例如：Max's Cogmate">
                 </div>
                 <div class="form-group">
                     <label>描述</label>
@@ -489,7 +489,7 @@
                 <div class="form-group">
                     <label>Token（每行一个，用户购买后将获得其中一个）</label>
                     <textarea name="tokens" rows="4" placeholder="tok_xxxx1&#10;tok_xxxx2&#10;tok_xxxx3" style="font-family: var(--font-mono); font-size: 0.85em;"></textarea>
-                    <small>在你的 Brain Agent 中生成 Token 后粘贴到这里</small>
+                    <small>在你的 Cogmate 中生成 Token 后粘贴到这里</small>
                 </div>
                 <div class="form-group">
                     <label>Token 定价 (<span class="atp-tooltip">ATP</span>)</label>
@@ -543,7 +543,7 @@
             <form id="addTokensForm" onsubmit="handleAddTokens(event)">
                 <div class="form-group">
                     <label>添加新 Token（每行一个，将自动验证）</label>
-                    <textarea name="newTokens" rows="3" placeholder="粘贴从 Brain 生成的 Token..." style="font-family: var(--font-mono); font-size: 0.85em;"></textarea>
+                    <textarea name="newTokens" rows="3" placeholder="粘贴从 Cogmate 生成的 Token..." style="font-family: var(--font-mono); font-size: 0.85em;"></textarea>
                     <small>Token 会自动验证类型、次数限制和有效期</small>
                 </div>
                 <div class="modal-buttons">
@@ -558,8 +558,8 @@
         let currentUser = null;
 
         function checkAuth() {
-            const token = localStorage.getItem('hub_token');
-            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+            const token = localStorage.getItem('cog_token');
+            const user = JSON.parse(localStorage.getItem('cog_user') || 'null');
 
             if (!token || !user) {
                 document.getElementById('loginPrompt').style.display = 'block';
@@ -578,7 +578,7 @@
         }
 
         async function loadMyAgents() {
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
             try {
                 const res = await fetch('/api/agents');
                 const data = await res.json();
@@ -629,7 +629,7 @@
         }
 
         async function loadMyTokens() {
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
             try {
                 const res = await fetch('/api/tokens/my', {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -668,7 +668,7 @@
 
         async function manageTokens(agentId) {
             managingAgentId = agentId;
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
 
             document.getElementById('tokenModal').classList.add('active');
             document.getElementById('tokenList').innerHTML = '<div class="empty">加载中...</div>';
@@ -749,7 +749,7 @@
         }
 
         async function updateTokenPrice(scope, qaLimit, price) {
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
             try {
                 const res = await fetch(`/api/agents/${managingAgentId}/pricing`, {
                     method: 'PUT',
@@ -770,7 +770,7 @@
         async function handleAddTokens(e) {
             e.preventDefault();
             const form = e.target;
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
             const newTokens = form.newTokens.value.split('\n').map(t => t.trim()).filter(t => t);
 
             if (newTokens.length === 0) {
@@ -812,7 +812,7 @@
 
         async function editAgent(agentId) {
             editingAgentId = agentId;
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
 
             try {
                 const res = await fetch(`/api/agents/${agentId}`);
@@ -842,7 +842,7 @@
                 return;
             }
 
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
 
             try {
                 const res = await fetch(`/api/agents/${agentId}`, {
@@ -906,7 +906,7 @@
         async function handleCreateAgent(e) {
             e.preventDefault();
             const form = e.target;
-            const token = localStorage.getItem('hub_token');
+            const token = localStorage.getItem('cog_token');
 
             const tags = form.tags.value.split(',').map(t => t.trim()).filter(t => t);
             const tokens = form.tokens.value.split('\n').map(t => t.trim()).filter(t => t);
@@ -952,8 +952,8 @@
         }
 
         function logout() {
-            localStorage.removeItem('hub_token');
-            localStorage.removeItem('hub_user');
+            localStorage.removeItem('cog_token');
+            localStorage.removeItem('cog_user');
             location.href = '/';
         }
 

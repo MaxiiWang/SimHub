@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub - 分布式认知市场</title>
+    <title>CogNexus - 分布式认知枢纽</title>
     <link rel="stylesheet" href="/static/css/theme.css">
     <style>
         /* ===== Hero ===== */
@@ -322,7 +322,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">Hub<span class="dot">.</span></div>
+                <div class="logo">CogNexus<span class="dot">.</span></div>
                 <div class="nav-links">
                     <a href="/marketplace">市场</a>
                     <div class="auth-buttons" id="authButtons">
@@ -388,7 +388,7 @@
                     <div class="feature-card animate-in animate-in-delay-1">
                         <div class="feature-icon">👤</div>
                         <h3>Human</h3>
-                        <p>发布你的 Brain Agent，将个人认知数字化，让他人按需访问你的思维方式</p>
+                        <p>发布你的 Cogmate，将个人认知数字化，让他人按需访问你的思维方式</p>
                     </div>
                     <div class="feature-card animate-in animate-in-delay-2 coming-soon">
                         <div class="feature-icon">🎭</div>
@@ -429,20 +429,20 @@
                     <div class="oss-header">
                         <div class="oss-icon">🧠</div>
                         <div class="oss-title">
-                            <h2>SimWorld</h2>
+                            <h2>Cogmate</h2>
                             <p>开源个人知识管理系统</p>
                         </div>
                         <div class="oss-badges">
-                            <a href="https://github.com/MaxiiWang/SimWorld" target="_blank">
-                                <img src="https://img.shields.io/github/stars/MaxiiWang/SimWorld?style=social" alt="GitHub Stars">
+                            <a href="https://github.com/MaxiiWang/Cogmate" target="_blank">
+                                <img src="https://img.shields.io/github/stars/MaxiiWang/Cogmate?style=social" alt="GitHub Stars">
                             </a>
-                            <a href="https://github.com/MaxiiWang/SimWorld/fork" target="_blank">
-                                <img src="https://img.shields.io/github/forks/MaxiiWang/SimWorld?style=social" alt="GitHub Forks">
+                            <a href="https://github.com/MaxiiWang/Cogmate/fork" target="_blank">
+                                <img src="https://img.shields.io/github/forks/MaxiiWang/Cogmate?style=social" alt="GitHub Forks">
                             </a>
                         </div>
                     </div>
                     <div class="oss-body">
-                        <p>Hub 上的 Human Agent 由 <strong>SimWorld</strong> 驱动 —— 一个三库协同的知识管理系统，让 AI Agent 拥有持久记忆和知识图谱能力。</p>
+                        <p>CogNexus 上的 Human Agent 由 <strong>Cogmate</strong> 驱动 —— 一个三库协同的知识管理系统，让 AI Agent 拥有持久记忆和知识图谱能力。</p>
                         <div class="oss-features">
                             <span>📊 SQLite + Qdrant + Neo4j</span>
                             <span>🔍 语义检索</span>
@@ -451,13 +451,13 @@
                         </div>
                     </div>
                     <div class="oss-footer">
-                        <a href="https://github.com/MaxiiWang/SimWorld" target="_blank" class="btn btn-primary">
+                        <a href="https://github.com/MaxiiWang/Cogmate" target="_blank" class="btn btn-primary">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 6px; vertical-align: -2px;">
                                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                             </svg>
                             查看源码
                         </a>
-                        <a href="https://github.com/MaxiiWang/SimWorld#-快速开始" target="_blank" class="btn btn-secondary">
+                        <a href="https://github.com/MaxiiWang/Cogmate#-快速开始" target="_blank" class="btn btn-secondary">
                             快速开始 →
                         </a>
                     </div>
@@ -468,7 +468,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Hub &middot; Powered by ATP</p>
+            <p>&copy; 2026 CogNexus &middot; Powered by ATP</p>
         </div>
     </footer>
 
@@ -525,8 +525,8 @@
 
         // 检查登录状态
         function checkAuth() {
-            const token = localStorage.getItem('hub_token');
-            const user = JSON.parse(localStorage.getItem('hub_user') || 'null');
+            const token = localStorage.getItem('cog_token');
+            const user = JSON.parse(localStorage.getItem('cog_user') || 'null');
 
             if (token && user) {
                 document.getElementById('authButtons').classList.add('hidden');
@@ -581,8 +581,8 @@
                 const result = await res.json();
 
                 if (res.ok) {
-                    localStorage.setItem('hub_token', result.token);
-                    localStorage.setItem('hub_user', JSON.stringify({
+                    localStorage.setItem('cog_token', result.token);
+                    localStorage.setItem('cog_user', JSON.stringify({
                         user_id: result.user_id,
                         username: result.username,
                         atp_balance: result.atp_balance
@@ -617,8 +617,8 @@
                 const result = await res.json();
 
                 if (res.ok) {
-                    localStorage.setItem('hub_token', result.token);
-                    localStorage.setItem('hub_user', JSON.stringify({
+                    localStorage.setItem('cog_token', result.token);
+                    localStorage.setItem('cog_user', JSON.stringify({
                         user_id: result.user_id,
                         username: result.username,
                         atp_balance: result.atp_balance
@@ -636,8 +636,8 @@
 
         // 登出
         function logout() {
-            localStorage.removeItem('hub_token');
-            localStorage.removeItem('hub_user');
+            localStorage.removeItem('cog_token');
+            localStorage.removeItem('cog_user');
             location.reload();
         }
 

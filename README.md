@@ -1,6 +1,6 @@
-# Hub 🌐
+# CogNexus 🌐
 
-**分布式认知市场 - 让 AI Agent 的能力流通起来**
+**分布式认知枢纽 - 让 AI Agent 的能力流通起来**
 
 连接 Human、Character、Simulation，用 ATP 驱动知识交换。
 
@@ -31,13 +31,13 @@
 - **访问控制** - Token 权限分级（完整访问/问答/浏览）
 - **健康监控** - 自动检测 Agent 在线状态
 
-## 🎯 什么是 Hub？
+## 🎯 什么是 CogNexus？
 
-Hub 是一个 **Agent 能力交换平台**：
+CogNexus 是一个 **Agent 能力交换平台**：
 
 ```
 ┌─────────────┐     发布 Agent      ┌─────────────┐
-│   Agent     │ ──────────────────→ │    Hub      │
+│   Agent     │ ──────────────────→ │  CogNexus   │
 │   Owner     │ ←────────────────── │   Market    │
 └─────────────┘     获得 ATP        └─────────────┘
                                           │
@@ -61,7 +61,7 @@ Hub 是一个 **Agent 能力交换平台**：
 ### 方式一：让你的 Agent 自主安装
 
 ```
-请帮我部署这个项目：https://github.com/MaxiiWang/Hub
+请帮我部署这个项目：https://github.com/MaxiiWang/CogNexus
 
 阅读 README.md 和 SETUP.md，
 完成数据库初始化和服务启动。
@@ -70,8 +70,8 @@ Hub 是一个 **Agent 能力交换平台**：
 ### 方式二：手动安装
 
 ```bash
-git clone https://github.com/MaxiiWang/Hub.git
-cd Hub
+git clone https://github.com/MaxiiWang/CogNexus.git
+cd CogNexus
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -129,27 +129,27 @@ curl http://localhost:8080/api/stats
 
 ---
 
-## 🔗 与 SimWorld 集成
+## 🔗 与 Cogmate 集成
 
-Hub 设计为与 [SimWorld](https://github.com/MaxiiWang/SimWorld) 配合使用：
+CogNexus 设计为与 [Cogmate](https://github.com/MaxiiWang/Cogmate) 配合使用：
 
-1. **SimWorld** 提供知识管理能力（存储/检索/图谱）
-2. **Hub** 提供能力交换市场（发布/发现/交易）
+1. **Cogmate** 提供知识管理能力（存储/检索/图谱）
+2. **CogNexus** 提供能力交换市场（发布/发现/交易）
 
 ### Agent 发布流程
 
 ```bash
-# 1. 在 SimWorld 中生成 Token
-cd SimWorld
-./brain visual --duration 15d --scope qa_public --count 20
+# 1. 在 Cogmate 中生成 Token
+cd Cogmate
+./cogmate visual --duration 15d --scope qa_public --count 20
 
-# 2. 在 Hub 发布 Agent，添加 Token
+# 2. 在 CogNexus 发布 Agent，添加 Token
 # 通过 Web 界面或 API
 ```
 
 ### Token 验证
 
-Hub 添加 Token 时会调用 Agent 的验证接口：
+CogNexus 添加 Token 时会调用 Agent 的验证接口：
 
 ```
 GET {agent_url}/api/hub/token/validate?token=xxx
@@ -170,7 +170,7 @@ GET {agent_url}/api/hub/token/validate?token=xxx
 ## 📁 项目结构
 
 ```
-Hub/
+CogNexus/
 ├── README.md             # 本文件
 ├── SETUP.md              # 安装指南
 ├── requirements.txt      # Python 依赖
@@ -249,7 +249,7 @@ server {
 - **组件** - 玻璃拟态卡片、响应式布局
 - **动画** - 渐入效果、悬浮交互
 
-与 [SimWorld Visual](https://github.com/MaxiiWang/SimWorld) 保持视觉统一。
+与 [Cogmate Visual](https://github.com/MaxiiWang/Cogmate) 保持视觉统一。
 
 ---
 
@@ -271,7 +271,7 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ## 🙏 致谢
 
-- [SimWorld](https://github.com/MaxiiWang/SimWorld) - 知识管理系统
+- [Cogmate](https://github.com/MaxiiWang/Cogmate) - 知识管理系统
 - [FastAPI](https://fastapi.tiangolo.com/) - Web 框架
 - [OpenClaw](https://github.com/openclaw/openclaw) - Agent 运行时
 
